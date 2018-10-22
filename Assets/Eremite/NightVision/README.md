@@ -25,3 +25,22 @@ This shader will let you see at very low light levels when you look through an o
 * There are occasionally some glitches in worlds with post-processing effects that can cause flashing/strobe effects.  If this may cause problems for you, you might want to avoid using this.
 
 ---
+
+**Nerd Stuff**:
+This is taking the RGB value of each pixel and calculating the proportion of each color:
+* Red = Red/(Red+Green+Blue)
+* Green = Green/(Red+Green+Blue)
+* Blue = Blue/(Red+Green+Blue)
+
+These are re-combined into an RGBA vector4 and by itself results in a working night vision, but the detail of shadows are lost. To try to keep the shadows, we find the max of the RGB values to set as a baseline for how bright the object should be.
+
+```
+let:
+  x = maximum of RGB values
+  s = sensitivity value
+
+  x/(x+s)
+```
+This creates a value that grows very quickly at low values, but slows down as it approaches one. [WolframAlpha](https://www.wolframalpha.com/input/?i=graph+x%2F%28x%2B.1%29+from+0+to+1)
+
+We can then multiply this value by the RGBA vector 4 to have varying intensities of objects in the scene. :3
