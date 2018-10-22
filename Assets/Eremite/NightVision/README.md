@@ -50,3 +50,8 @@ We can then multiply this value by the RGBA vector 4 to have varying intensities
 The obscuring shader is super simple and just grabs whatever's behind it and passes it forward, doing effectively nothing.  However, since it's render queue is directly before the night vision shader, you don't see the night vision shader from outside the sphere.
 
 The sphere for desktop users is just a normal sphere created in blender, but with its faces duplicated, then shrunk a bit and its normals flipped.
+
+---
+**Preview**: Before and after demos:
+![off](https://i.imgur.com/DOkOY2W.png)
+![on](https://i.imgur.com/sJ0WmT7.png)
