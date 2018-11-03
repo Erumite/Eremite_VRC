@@ -11,5 +11,9 @@ These are just some useful meshes that I've used in world/avatar creation.  They
 * **inverted_cube**: Cube with flipped normals.
 * **inverted_sphere_lowpoly**: A lower-poly version of a sphere with inverted normals.
 
+###### Utility:
+* **2-sided plane**: A two-sided plane that shows the same image on both sides; one mesh, 4 tris.
+* **2-sided plane mirrored**: Same as above, but the image is mirrored on the other side.  (EG: `d` becomes `b`)
+
 ###### Map Stuff:
 * **terrain_grass_cross**: back-to-back quads in an X-shape for a nice grass effect without using terrain grass.
