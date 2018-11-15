@@ -4,7 +4,9 @@ This is the music setup I used in [Fidget Balls](https://www.vrchat.net/launch?w
 The idea was to have a jukebox that you could interact with to pick your own background music.  It doesn't matter if it's synced or not, and everyone could be listening to different things depending on their taste.  No point in making visitors download a ton of music they may not even listen to, right?
 
 This was only really possible by uploading the video files with the world (inflating the download size), or synced via the SyncVideoPlayer.  Neither of these had the behavior I wanted, and the sync player is very prone to breaking.
+
 ---
+
 ##### Demo
 See the demo scene for an example:
 1. Click the blue button to show music choices.
