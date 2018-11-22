@@ -49,6 +49,25 @@ If one is removed after it's unlocked, then it will return to a locked state and
 
 ---
 
+##### Pedestal Unlock with Item Reset to Random Location
+By request, I updated to add an unlock that does not destroy the object placed on the pedestal, but instead teleports it to a random location.  For the demo, I just duplicated the Health Trick pedestals, since the main change is on the pickup object.
+
+Instead of destroying itself, it will use a `SendRPC` action to force the `Owner` (player holding it) to drop it.  Otherwise it would snap back to their hand immediately when we try to move it.
+
+At the same time, we call a `CustomTrigger` action to another trigger on our object.  This custom trigger will use the `VRC_ObjectSync` `TeleportTo` RPC to teleport to one of 4 predefined positions at random.
+
+Once the blue square touches a blue pedestal, it will activate the pedestal and teleport itself to one of the 4 corners of the demo platform.
+
+This also added two new layers `Layer24` and `Layer25` to keep the pedestals/cube from interacting with the other demos.
+
+**Positives**:
+  * Lets you re-use the same object instead of destroying it.  Might be fun for a 'key hunt' where you have to search for the and unlock before searching for the next.
+
+**Negatives**:
+  * Setting up the TeleportTo locations is kindof a pain with lots of clicking in the trigger interface.
+  * Not 100% sure on how this is going to sync, TBH.
+---
+
 ##### Notes:
 All the pickups are in `Layer22` in Unity.  Pedestals that need to use collision triggers are in `Layer23`.  Not sure if this will show up properly if these layers aren't already set up in Unity for your project.
 
