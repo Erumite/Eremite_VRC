@@ -12,6 +12,11 @@ Use the included sample nametag file or the `.xcf` file in [Gimp](https://www.gi
 |NameTagTex|Texture of nametag|
 |EmissionTex|Emission Texture|
 
+The sizing is probably about right as-is, but the Y value is going to need some tweaking.  Some tips:
+* Make sure the Z value matches taht of your ViewBall.
+* Try setting the Y value to the Y value of your view ball plus ~0.9 to start with.
+
+Upload, test with a 2nd client or a friend till it looks right.
 
 ## Credits
 The vertex position portion of the shader is adapted from [Vilar's Eye Tracking Shader](https://vrcat.club/threads/vilars-eye-tracking-shader.1640/) with the majority of the unnecessary settings removed to reduce calculations needed and simplify configuration.
