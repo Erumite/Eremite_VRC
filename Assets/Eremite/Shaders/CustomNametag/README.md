@@ -13,13 +13,29 @@ Use the included sample nametag file or the `.xcf` file in [Gimp](https://www.gi
 |EmissionTex|Emission Texture|
 
 The sizing is probably about right as-is, but the Y value is going to need some tweaking.  Some tips:
-* Make sure the Z value matches taht of your ViewBall.
+* Set the Z value to that of your ViewBall to start with.
 * Try setting the Y value to the Y value of your view ball plus ~0.9 to start with.
+* X should always be zero
+* If you move under the nametag and the real tag pops out the top, you probably need to move the mesh up (and vice versa)
+* If it's visible from the front, move the mesh forward, and vice versa.
 
 Upload, test with a 2nd client or a friend till it looks right.
 
+## Flipbook Variant
+| Setting | Description |
+| --- | --- |
+| Flip | Show the reverse side of the nametag (in an animation override)|
+|NameTagTex|Texture of nametag, ordered into a spritesheet|
+|Emission|Emission multiplier (uses main texture)|
+|Columns|Number of vertical columns in the spritesheet|
+|Rows|Number of horizontal rows in the spritesheet|
+|StartFrame|Start at X frame in the sheet|
+|Speed|How fast it should switch sheet frames|
+
 ## Credits
 The vertex position portion of the shader is adapted from [Vilar's Eye Tracking Shader](https://vrcat.club/threads/vilars-eye-tracking-shader.1640/) with the majority of the unnecessary settings removed to reduce calculations needed and simplify configuration.
+
+Thanks to RollTheRed for suggesting the spritesheet animation variant. :3
 
 ## Warnings:
 There seems to be some contention about whether or not this is against the TOS.  Use common sense and avoid using it maliciously.  The TOS explicitly bans:
@@ -31,6 +47,7 @@ In theory, this means that simply hiding your name plate or adding a custom one 
 
 ### ToDo:
 Figure out best option for fallback shader when shaders are blocked.
+Trying to figure out a way to get a depth-check to work so only nametag is hidden, not transparent effects behind it.
 
 ## Issues:
 Doesn't show up right in mirrors.  The mirror reflects the name tag as you'd expect it to based on its rotation in the world, while the shader will always face the camera on both the real and mirror reflected versions:

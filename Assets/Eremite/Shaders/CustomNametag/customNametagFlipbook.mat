@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: customNametag
-  m_Shader: {fileID: 4800000, guid: 43f718fbe7f8d20498eaec9fd30869c0, type: 3}
+  m_Name: customNametagFlipbook
+  m_Shader: {fileID: 4800000, guid: fa9b927a67aec6e4591eae1a96bb1fdf, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 1
@@ -39,7 +39,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionText:
-        m_Texture: {fileID: 2800000, guid: e552f4ec6d6329840943c2c5aa4e5379, type: 3}
+        m_Texture: {fileID: 2800000, guid: c4469d4743ac68d4fb986e3f1cb24aa8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -51,7 +51,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NameTagTex:
-        m_Texture: {fileID: 2800000, guid: e552f4ec6d6329840943c2c5aa4e5379, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3eae7683dfb609a4aa09c074d0ab4b23, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
@@ -72,6 +72,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
+    - _Columns: 3
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -85,9 +86,13 @@ Material:
     - _NormalStrength: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _Rows: 3
+    - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
+    - _Speed: 6
     - _SrcBlend: 1
+    - _StartFrame: 0
     - _UVSec: 0
     - _ZWrite: 1
     - __dirty: 0
