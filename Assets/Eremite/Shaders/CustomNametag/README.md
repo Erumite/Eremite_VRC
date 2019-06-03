@@ -1,5 +1,7 @@
 # Custom Nametag
-Experimental method of hiding nametags without using massive spheres/cubes that block out a lot of transparent-queue+ objects in the background.  Basically just a cube with a 2999 render queue that passes whatever's behind it before the Transparent-queued (3000) nametag is shown.
+Experimental method of hiding nametags without using massive spheres/cubes that block out a lot of transparent-queue+ objects in the background.  
+
+Basically just a cube with a 2999 render queue that passes whatever's behind it before the Transparent-queued (3000) nametag is shown.
 
 ## Usage:
 Drag prefab into avatar's game object, alongside armature.  Don't put it in armature or it won't match the name plate's movement.
@@ -8,16 +10,18 @@ Use the included sample nametag file or the `.xcf` file in [Gimp](https://www.gi
 
 | Setting | Description |
 | --- | --- |
-| Flip | Show the reverse side of the nametag (in an animation override)|
 |NameTagTex|Texture of nametag|
 |EmissionTex|Emission Texture|
 
 The sizing is probably about right as-is, but the Y value is going to need some tweaking.  Some tips:
-* Set the Z value to that of your ViewBall to start with.
-* Try setting the Y value to the Y value of your view ball plus ~0.9 to start with.
-* X should always be zero
-* If you move under the nametag and the real tag pops out the top, you probably need to move the mesh up (and vice versa)
-* If it's visible from the front, move the mesh forward, and vice versa.
+* Drag the nameplate prefab out of your avatar and into world space.
+* Set the Y value to your viewball Y-value + .5
+* Set X to Zero
+* Set Z value to the Z value of your viewball.
+* Drag the nameplate prefab back into your avatar's game object.
+* Upload and test position:
+  * If you move under the nametag and the real tag pops out the top, you probably need to move the mesh up (and vice versa)
+  * If it's visible from the front, move the mesh forward, and vice versa.
 
 Upload, test with a 2nd client or a friend till it looks right.
 
@@ -51,6 +55,8 @@ In theory, this means that simply hiding your name plate or adding a custom one 
 Doesn't show up right in mirrors.  The mirror reflects the name tag as you'd expect it to based on its rotation in the world, while the shader will always face the camera on both the real and mirror reflected versions.  This shouldn't be a problem in most worlds as most people disable UI/nametags in the mirror as part of optimizations.
 
 ![](https://cdn.discordapp.com/attachments/432526944500973579/584523813786484864/unknown.png)
+
+It will hide anything in transparent queue behind it as well.  Portals, avatar pedestal previews, others' nametags, etc.
 
 It's also visible to yourself when you look up, but that's to be expected.
 
