@@ -21,6 +21,13 @@ The sizing is probably about right as-is, but the Y value is going to need some 
 
 Upload, test with a 2nd client or a friend till it looks right.
 
+#### Spritesheet Generation with ImageMagick
+
+Example: Create a 3x3 spritesheet of 800x200 images named frame[0-9].png.
+```
+montage frame*.png -tile 3x3 -geometry 800x200+0+0 -background transparent spritesheet.png
+```
+
 ## Flipbook Variant
 | Setting | Description |
 | --- | --- |
@@ -32,11 +39,6 @@ Upload, test with a 2nd client or a friend till it looks right.
 |StartFrame|Start at X frame in the sheet|
 |Speed|How fast it should switch sheet frames|
 
-## Credits
-The vertex position portion of the shader is adapted from [Vilar's Eye Tracking Shader](https://vrcat.club/threads/vilars-eye-tracking-shader.1640/) with the majority of the unnecessary settings removed to reduce calculations needed and simplify configuration.
-
-Thanks to RollTheRed for suggesting the spritesheet animation variant. :3
-
 ## Warnings:
 There seems to be some contention about whether or not this is against the TOS.  Use common sense and avoid using it maliciously.  The TOS explicitly bans:
 
@@ -45,13 +47,18 @@ There seems to be some contention about whether or not this is against the TOS. 
 
 In theory, this means that simply hiding your name plate or adding a custom one isn't against TOS.  Altering the frames to imitate a different trust rank, add or remove friend or other nametag icons, change username, impersonate a mod, etc are done at your own risk and will likely be actionable.
 
-### ToDo:
-Figure out best option for fallback shader when shaders are blocked.
-Trying to figure out a way to get a depth-check to work so only nametag is hidden, not transparent effects behind it.
-
 ## Issues:
-Doesn't show up right in mirrors.  The mirror reflects the name tag as you'd expect it to based on its rotation in the world, while the shader will always face the camera on both the real and mirror reflected versions:
+Doesn't show up right in mirrors.  The mirror reflects the name tag as you'd expect it to based on its rotation in the world, while the shader will always face the camera on both the real and mirror reflected versions.  This shouldn't be a problem in most worlds as most people disable UI/nametags in the mirror as part of optimizations.
 
 ![](https://cdn.discordapp.com/attachments/432526944500973579/584523813786484864/unknown.png)
 
 It's also visible to yourself when you look up, but that's to be expected.
+
+### ToDo:
+Figure out best option for fallback shader when shaders are blocked.
+Trying to figure out a way to get a depth-check to work so only nametag is hidden, not transparent effects behind it.
+
+## Credits
+The vertex position portion of the shader is adapted from [Vilar's Eye Tracking Shader](https://vrcat.club/threads/vilars-eye-tracking-shader.1640/) with the majority of the unnecessary settings removed to reduce calculations needed and simplify configuration.
+
+Thanks to RollTheRed for suggesting the spritesheet animation variant. :3
