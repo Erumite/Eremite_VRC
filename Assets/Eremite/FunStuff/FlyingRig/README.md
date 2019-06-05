@@ -26,9 +26,11 @@ Optional:
 
 Your mileage may vary depending on the walking/running/crouching/etc animation that you are using.
 
-This works fantastically with my own animation, but on the testing avatar in the demo scene, looking downward causes the avatar to shoot forward pretty quickly.  This may be desirable for some people, so play with different movement animations until you find something that fits the flying style you want.
+This works fantastically with my own animation, but the default walk animations for VRChat act strangely; Looking downward causes the avatar to shoot forward pretty quickly.  This may be desirable for some people, so play with different movement animations until you find something that fits the flying style you want.
 
-If you want pure smooth flying with no odd boosting, try removing `Root.Q` and `Root.T` from your movement animations and hope it doesn't make it look weird.
+If you want pure smooth flying with no odd boosting, try tweaking the settings on a custom walk animation to match the ones in the demo:
+
+![](https://i.imgur.com/dcejmDv.png)
 
 If you jump and get launched sideways when it's not activated, try moving it down a bit more.  Sometimes you'll bump into the collider while falling and get booted to the side.  I find this kindof humorous, but you could probably get around it by having the collider above you by default rather than below, then moving it to `0,0,0` in the animation.
 
