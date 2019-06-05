@@ -19,7 +19,10 @@ Improved a bit with some configurable joint and rigidbody magic to allow control
 
 Optional:
 5. Disable the mesh renderer for `lolfly/pitterpat` and add your own effects.  It's just there to demo how it works.
-6. Tweak the `High Angular X Limit` of `Configurable Joint` to fine-tune how it adjusts to gain/lower altitude.  Essentially how many degrees your head must go up/down before the collider starts to shift its angle.  I find ~30 degrees is a good mix of stability and control.
+6. Tweak the `High Angular X Limit` of `Configurable Joint` to fine-tune how it adjusts to gain/lower altitude.  
+  * Essentially how many degrees your head must go up/down before the collider starts to shift its angle.  
+  * I find ~30 degrees is a good mix of stability and control on desktop.
+  * May want to raise this a good bit in VR if you like to look down while flying.
 
 ### Troubleshooting
 *(This looks like a lot of things that can go wrong, but overall it's very stable.)*
