@@ -13,22 +13,25 @@ import sys
 import os
 
 ## To do:
-# Clear your blocklist, possibly option for older than X months.
-# Send friend requests.
+# Clear your blocklist, possibly option for older than X months/days.
+# Friend List Purge based on last-online time.
+# Send friend requests/Remove Friends.
 # Send and check messages? Option to read message from file (for ascii art)
 
 ## Set the config file here:
 config_file=os.path.expanduser('~/.vrcapi.conf')
 
 ############### Shouldn't need to touch this stuff ############################
-# Some global variables we'll be using:
+# "HURR, he posted his API key to GitHub! XD"
+#  This is the public API key that everyone uses:
+#        https://api.vrchat.cloud/api/1/config/
 apiurl = "https://api.vrchat.cloud/api/1"
 apikey = "apiKey=JlE5Jldo5Jibnk5O5hTx6XVqsJu4WJ26"
 
 # Doubt we'll need this, but let's keep things civil.
 os.nice(19)
 
-# colors for prettiness
+# colors for prettiness & readability
 col_bold="\033[1m"
 col_norm="\033[0m"
 col_red="\033[31m"
