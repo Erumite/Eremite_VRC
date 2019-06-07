@@ -13,8 +13,7 @@ import sys
 import os
 
 ## To do:
-# Clear your blocklist, possibly option for older than X months/days.
-# Friend List Purge based on last-online time.
+# Clear your blocklist, possibly option for older than X months.
 # Send friend requests.
 # Send and check messages? Option to read message from file (for ascii art)
 
@@ -24,21 +23,18 @@ config_file=os.path.expanduser('~/.vrcapi.conf')
 ############### Shouldn't need to touch this stuff ############################
 # Some global variables we'll be using:
 apiurl = "https://api.vrchat.cloud/api/1"
-# "HURR, he posted his API key to GitHub! XD"
-#  This is the public API key that everyone uses:
-#        https://api.vrchat.cloud/api/1/config/
 apikey = "apiKey=JlE5Jldo5Jibnk5O5hTx6XVqsJu4WJ26"
 
 # Doubt we'll need this, but let's keep things civil.
 os.nice(19)
 
-# colors for prettiness and readability.
+# colors for prettiness
 col_bold="\033[1m"
 col_norm="\033[0m"
 col_red="\033[31m"
 col_green="\033[32m"
 
-# Lets's set up a parser to specify searches and whatnot.
+# Lets's set up a parser to specify search types.
 description_text = '\033[1m....:::: Unofficial Script for pulling info from VRChat API ::::....\033[0m'
 
 parser = argparse.ArgumentParser(description=description_text, epilog="Bugs? Hit up \033[1mEremite#8888\033[0m on Discord. (or RTFM)",
@@ -55,6 +51,8 @@ parser.add_argument("-u", "--users", help="Search users for specified string/nam
 parser.add_argument("-U", "--user", help="Search users by specific UserID", dest="userid_search", metavar="")
 parser.add_argument("-f", "--friends", help="List all online friends.", action="store_true")
 parser.add_argument("-F", "--pubfriends", help="List all online friends in non-private worlds.", action="store_true")
+parser.add_argument("-p", "--purgeable", help="List friends offline since X days.", dest="purgeabledays", metavar='')
+parser.add_argument("-P", "--purge", help="Purge friends offline since X days. With Confirmation.", dest="purgedays", metavar='')
 parser.add_argument("-d", "--user-detail", help="More user detail with -U (and -u kindof)", action="store_true")
 parser.add_argument("-b", "--user_blocks", help="Users you have blocked.", action="store_true")
 parser.add_argument("-B", "--user_blocked", help="Users that blocked you.", action="store_true")
@@ -202,14 +200,17 @@ def parse_world(w):
                 else:
                     iid = "\033[1;32m" + i[0] + "\033[0m"
 
-                print('''\033[1;36m{0}\n(\033[1m{1:>2}\033[0m)  ID: {2}'''.format('-'*50, i[1], iid))
+                print('''\033[1;36m{0}\n(\033[1m{1:>2} )\033[0m  ID: {2}'''.format('-'*50, i[1], iid))
 
                 # If -I is specified instead of just -i, we also need to get a list of users in all instances.
                 if args.show_instance_users:
                     userlist = getinstanceusers(w['id'], i[0])
 
-                    for u in userlist['users']:
-                        parse_user(u)
+                    try:
+                        for u in userlist['users']:
+                            parse_user(u)
+                    except:
+                        pass
 
                 # Finally print a launch link if requested:
                 print("\033[1mLaunch:\033[0m https://www.vrchat.net/launch?worldId=" + w['id'] +
@@ -298,9 +299,13 @@ def parse_user(u, detail=False):
             except:
                 print('\033[1;35m\t 𝓕 ✚  Friends+ Instance  𝓕 ✚\033[0m')
 
-            userlist = getinstanceusers(u['location'].split(':')[0], u['location'].split(':')[1])
-            for u in sorted(userlist['users'], key=lambda u: u['displayName'].lower()):
-                parse_user(u)
+            # API Changes don't let you list instance users.  Gotta try/except.
+            try:
+                userlist = getinstanceusers(u['location'].split(':')[0], u['location'].split(':')[1])
+                for u in sorted(userlist['users'], key=lambda u: u['displayName'].lower()):
+                    parse_user(u)
+            except:
+                pass
 
 def get_user_blocks():
     print("Player moderations by you. (Blocked users)")
@@ -360,6 +365,44 @@ def check_extra_args(uri):
         uri = uri + "&tag=" + str(args.world_tag)
     return(uri)
 
+#
+def purge_friends():
+    from datetime import datetime
+
+    offset=0
+    offlinefriends=[]
+    while True:
+        targeturi = 'https://api.vrchat.cloud/api/1/auth/user/friends/?n=100&offline=true&offset=' + str(offset) + '&' + apikey
+        targeturi = check_extra_args(targeturi)
+
+        rjson = requests.get(targeturi, headers=headers)
+        rjson = json.loads(rjson.content.decode('utf-8'))
+
+        if len(rjson) == 0:
+            break
+
+        offlinefriends += rjson
+        offset += 100
+
+    for friend in offlinefriends:
+        targeturi = 'https://api.vrchat.cloud/api/1/users/' + friend['id'] + '/?' + apikey
+        rjson = requests.get(targeturi, headers=headers)
+        rjson = json.loads(rjson.content.decode('utf-8'))
+        dt=datetime.strptime(rjson['last_login'], '%Y-%m-%dT%H:%M:%S.%fZ')
+        dt=datetime.now() - dt
+
+        if args.purgeabledays:
+            pdays=int(args.purgeabledays)
+        elif args.purgedays:
+            pdays=int(args.purgedays)
+
+        if dt.days > pdays or pdays == 0:
+            print ("\033[1;30m{0:<5}\033[0m ".format(dt.days), end='')
+            parse_user(friend)
+            if args.purgedays:
+                print("This will eventually ask if you want to purge the user.")
+
+
 # Read User/Pass, base64 encode, save to or update config file.
 def setup_user():
     # Doin' imports for these here since we won't need them usually.
@@ -403,6 +446,8 @@ elif args.user_blocks:
     get_user_blocks()
 elif args.user_blocked:
     get_user_blocked()
+elif args.purgedays or args.purgeabledays:
+    purge_friends()
 elif args.setup:
     setup_user()
 else:
