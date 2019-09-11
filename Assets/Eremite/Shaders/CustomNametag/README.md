@@ -68,3 +68,15 @@ Trying to figure out a way to get a depth-check to work so only nametag is hidde
 The vertex position portion of the shader is adapted from [Vilar's Eye Tracking Shader](https://vrcat.club/threads/vilars-eye-tracking-shader.1640/) with the majority of the unnecessary settings removed to reduce calculations needed and simplify configuration.
 
 Thanks to RollTheRed for suggesting the spritesheet animation variant. :3
+
+---
+
+#### Position Test Results - Making sense of where to put this thing.
+| ViewBall Y | NameTag Y | ViewBall Z | NameTag Z | Y Offset | Z Offset |
+| ---------- | --------- | ---------- | --------- | -------- | -------- |
+| 0.865      | 1.70625   | 0.01       | 0.0125    | +0.84125 | +0.0025  |
+| 0.85       | 1.4       | 0.02       | 0.01      | +0.55    | -0.01    |
+
+Please DM me your ViewBall position and final nametag position if you get it working properly for more data points.  
+
+Positioning doesn't make much sense so far with a sample size of 2.  Possibly calculated from bounds size? 
