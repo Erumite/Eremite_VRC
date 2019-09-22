@@ -40,6 +40,15 @@ This shader will let you see at very low light levels when you look through an o
 
 ---
 
+##### Variants:
+
+**Depth Buffer Version** : Uses depth texture to calculate distance from the viewer to allow for setting a max view distance.  Might be useful in maps where you want night vision, but don't want people to see far.
+
+*Caveats*:
+ * Requires a realtime directional light with shadows.  I added a prefab directional light with low intensity, hard shadows, and affecting an unused layer for optimal performance while still creating a depth texture.
+ * This assumes a camera max clip length of 1000 (Default for VRC Worlds) when calculating distance from camera. If the clipping plane is adjusted, you may need to eye-ball the distance setting.
+---
+
 **Nerd Stuff**:
 This is taking the RGB value of each pixel and calculating the proportion of each color:
 * Red = Red/(Red+Green+Blue)
