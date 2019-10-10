@@ -163,7 +163,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: DemoAvatarBody
-    second: {fileID: 2100000, guid: 86530e58311fdf04b94d0af8d705cf65, type: 2}
+    second: {fileID: 2100000, guid: cb0f9b90371f4d943a2c4ff9c1178794, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
