@@ -5,16 +5,25 @@ In this example, there's a camera attached and a render texture outputting to a 
 
 * Attach a chair!  Fly your friends around!
 * Replace the mesh with a ghost and some spooky sounds to creep people out!
+* Make a UFO that buzzes around the map to commemorate the Area 51 raid!
 * Other stuff probably!
+
+### Features:
+* Relatively easy to control.  Super easy in Desktop, takes a little bit of getting used to in VR.
+* No clipping with walls since there's no collider on it.
+* Does not trigger respawns or other OnAvatarHit/OnEnterTrigger/etc events.
+* Is not affected by post-processing layers.
+* Can see MirrorReflection layer same as the VR users' camera.  Tweakable in the camera culling mask.
 
 ### Requirements:
 1. **FinalIK** : Prevents drone from rotating in a circle around you when turning.
+  * Still usable without FinalIK, especially in VR, if you avoid turning your body.
 2. **RigidBodies + ConfigurableJoint + Fixed Joint** : Base Unity stuff.
 3. **Animators**: A lot of animators and animations.
 
 ### Other Tech:
-* **Emote Toggle System** ( ___ ) : Tore apart this prefab to figure out how to make it enable/disable on emote.
-* **Twin-Drive Flying System** ( ___ ): Referenced the config joint with several modifications for the controller joint.
+* **Emote Toggle System** ( _?_ ) : Tore apart this prefab to figure out how to make it enable/disable on emote.
+* **Twin-Drive Flying System** ( _?_ ): Referenced the config joint with several modifications for the controller joint.
 
 ##### Setup:
 There's a prefab for VR and for Desktop in the prefabs folder.  Select the one most appropriate for your setup.   The main difference between the two is that the desktop one has a few additional fixed joints on the render screen to lock it to your head.
@@ -36,10 +45,23 @@ Should be good to go.
 **VR Setup**:
 Pretty much the same as Desktop, but instead of fixed-jointing the display to the head, just put it wherever you want it to be.  By default, it will go under the Left-Wrist bone.  Paths will need to be edited in the animations if it's placed elsewhere.
 
+One caveat is that you may need to rotate the joint to get it to be angled comfortably in your hand.  
+
+*However* this will break the rotation of the drone if you only rotate the joint.  Proper workflow for rotating the control joint is as follows:
+
+1. Drag the `CameraDrone` object from deep in the `CameraDroneRig` heirarchy to be a child of the `ControlJoint`
+2. Reset *position and rotation* of the `CameraDrone` so it's on top of the `ControlJoint`
+3. Rotate the `ControlJoint` so it's comfortable.  I prefer it so that hand forward and thumb up are the default resting position; matches normal controller posture.
+4. Move the `CameraDrone` back to where it was before under `CameraDroneReset` and reset the *position* only (not rotation).  It will look odd cocked to the side, but that's because you're in T-Pose.
+
 **General Setup Info**:
 The emotes are set up to work for both the desktop and VR version to keep total number of animations down.
 
 Check paths in animations if things are acting weird or not enabling.
+
+Speed can be adjusted by changing the value in the animation for the Gesture Override: `GO-DroneFwd`
+
+If in doubt, check the demo scenes.  Those should be in working order unless I broke something getting it set up for GitHub push. `¯\(ツ)/¯`
 
 ### Usage:
 1. Pop the `E-EnableDrone` emote to enable the drone or to reset it back to its spawn position if you get lost.
