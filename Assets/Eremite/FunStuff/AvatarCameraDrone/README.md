@@ -37,7 +37,7 @@ There's a prefab for VR and for Desktop in the prefabs folder.  Select the one m
 1. Drag the prefab into the scene. There are 3 things inside that need to be moved into your avatar. (It's all kept in one prefab to keep the references to each other to lower setup steps)
   * Drag the `Controller Joint` onto the head.  This will make the drone follow your head direction.
   * Drag the `DroneDisplay` into armature under Hips. (Can't be under head or it will get scaled down to 0,0,0 and be invisible)
-  * Drag the `CameraDroneRig` into your root game object or armature.  Not sure which one's better.  Probably armature?
+  * Drag the `CameraDroneRig` into your root game object, alongside armature/body.
 2. Move stuff around!  
   * The display screen should be in front of your viewball, far enough away where you can still see your menu preferably. Drag the whole game object, not just the screen.
   * `ControllerJoint` should be at `0,0,0` on the head.  Reset the position and rotation to all 0's.  Scale doens't really matter.
@@ -77,6 +77,7 @@ If in doubt, check the demo scenes.  Those should be in working order unless I b
 ### Problems!
 * This does not sync.  Like... at all really.  Networked IK + latency + the way it's simulated means everyone sees the drone in wildly different places.
 * For some reason it seems to break a little in Full Body.  It still works, but seems to immediately start flying off as if `Fist` is active.
+* VRChat's combat system breaks pretty much anything that uses rigidbodies.  Probably won't work in those worlds.
 
 ### Possible improvements or tweaks:
 Setting the camera depth higher will let you override your normal view entirely to get a real drone's eye view.
