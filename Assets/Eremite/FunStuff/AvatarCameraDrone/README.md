@@ -1,4 +1,6 @@
 # Avatar Camera Drone
+AKA: The ERP Killer
+
 A drone that can be summoned and flown around at will using a series of joints.
 
 In this example, there's a camera attached and a render texture outputting to a screen for flying around.  The possibilities are pretty much endless though:
@@ -8,12 +10,15 @@ In this example, there's a camera attached and a render texture outputting to a 
 * Make a UFO that buzzes around the map to commemorate the Area 51 raid!
 * Other stuff probably!
 
+**Setup Difficulty** : wew lad.  read all this thoroughly and good luck to you.
+
 ### Features:
-* Relatively easy to control.  Super easy in Desktop, takes a little bit of getting used to in VR.
+* Relatively easy to control.  Super intuitive in Desktop, takes a little bit of getting used to in VR.
 * No clipping with walls since there's no collider on it.
 * Does not trigger respawns or other OnAvatarHit/OnEnterTrigger/etc events.
 * Is not affected by post-processing layers.
 * Can see MirrorReflection layer same as the VR users' camera.  Tweakable in the camera culling mask.
+* Force ERPers into private worlds where they belong.
 
 ### Requirements:
 1. **FinalIK** : Prevents drone from rotating in a circle around you when turning.
@@ -72,3 +77,10 @@ If in doubt, check the demo scenes.  Those should be in working order unless I b
 ### Problems!
 * This does not sync.  Like... at all really.  Networked IK + latency + the way it's simulated means everyone sees the drone in wildly different places.
 * For some reason it seems to break a little in Full Body.  It still works, but seems to immediately start flying off as if `Fist` is active.
+
+### Possible improvements or tweaks:
+Setting the camera depth higher will let you override your normal view entirely to get a real drone's eye view.
+
+Toss a little screen-space shader around the camera to display world coordinates, etc for getting to places that are otherwise obscured. (assuming you know the position)
+
+Toggleable night-vision shader for the drone for when it flies into dark areas. (spotlight would be a performance nightmare and obnoxious)
