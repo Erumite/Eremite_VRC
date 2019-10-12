@@ -27,8 +27,8 @@ In this example, there's a camera attached and a render texture outputting to a 
 3. **Animators**: A lot of animators and animations.
 
 ### Other Tech:
-* **Emote Toggle System** ( _?_ ) : Tore apart this prefab to figure out how to make it enable/disable on emote.
-* **Twin-Drive Flying System** ( _?_ ): Referenced the config joint with several modifications for the controller joint.
+* **Emote Toggle System** ( _Kuro_ ) : Tore apart this prefab to figure out how to enable/disable on emote.
+* **Twin-Drive Flying System** ( _*?*_ ): Referenced the config joint and made several modifications for the controller joint.
 
 ##### Setup:
 There's a prefab for VR and for Desktop in the prefabs folder.  Select the one most appropriate for your setup.   The main difference between the two is that the desktop one has a few additional fixed joints on the render screen to lock it to your head.
