@@ -42,13 +42,14 @@ There's a prefab for VR and for Desktop in the prefabs folder.  Select the one m
   * The display screen should be in front of your viewball, far enough away where you can still see your menu preferably. Drag the whole game object, not just the screen.
   * `ControllerJoint` should be at `0,0,0` on the head.  Reset the position and rotation to all 0's.  Scale doens't really matter.
   * Move the `CameraDroneEnable` object in the `CameraDroneRig` to where you want the object to spawn in at and reset to. (Will go back to the `CameraDroneReset` position)
- 3. Set up emotes and gestures.
+3. Make sure `CameraDroneReset` and `DisplayScreen` are pointed to a rigidbody on the head bone (or the `ControllerJoint` to save on rigidbodies)
+4. Set up emotes and gestures.
    * See the `CameraDroneAvatarOverrides` override controller for reference.
 
 Should be good to go.
 
 **VR Setup**:
-Pretty much the same as Desktop, but instead of fixed-jointing the display to the head, just put it wherever you want it to be.  By default, it will go under the Left-Wrist bone.  Paths will need to be edited in the animations if it's placed elsewhere.
+Pretty much the same as Desktop, but instead of fixed-jointing the display to the head, just put it wherever you want it to be.  Still need to set head as the target of `CameraDroneReset` rigidbody. By default, display will go under the Left-Wrist bone.  Paths will need to be edited in the animations if it's placed elsewhere.
 
 One caveat is that you may need to rotate the joint to get it to be angled comfortably in your hand.  
 
