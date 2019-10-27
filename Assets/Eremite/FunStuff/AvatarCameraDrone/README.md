@@ -49,7 +49,11 @@ There's a prefab for VR and for Desktop in the prefabs folder.  Select the one m
 Should be good to go.
 
 **VR Setup**:
-Pretty much the same as Desktop, but instead of fixed-jointing the display to the head, just put it wherever you want it to be.  Still need to set head as the target of `CameraDroneReset` rigidbody. By default, display will go under the Left-Wrist bone.  Paths will need to be edited in the animations if it's placed elsewhere.
+Pretty much the same as Desktop, but instead of fixed-jointing the display to the head, just put it wherever you want it to be (left wrist in demo scene).
+
+Still need to set head as the target of `CameraDroneReset` rigidbody. There's a `Head-RespawnPOS` in the prefab that can be placed under the head. (Without this, the drone tends to spawn at 0,0,0)
+
+Paths will need to be edited in the animations if it's placed elsewhere.
 
 One caveat is that you may need to rotate the joint to get it to be angled comfortably in your hand.  
 
