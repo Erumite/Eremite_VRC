@@ -77,3 +77,6 @@ I'd also recommend adding a small icon to each of the music choices, and possibl
 ![](https://i.imgur.com/mtrJhKU.png)
 3. It starts playing!  Red button to reset.
 ![](https://i.imgur.com/EdEPeuL.png)
+
+##### Update:
+Nov 3 2019 - Optimized a bit by having all video players use the same audio source/screen to make it easier to edit.
