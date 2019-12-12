@@ -1,3 +1,5 @@
+![](https://forthebadge.com/images/badges/contains-technical-debt.svg) ![](https://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg) ![](https://forthebadge.com/images/badges/fuck-it-ship-it.svg)
+
 # Eremite's VRChat Stuff
 This repo is here to contain a bunch of VRChat related notes, prefabs and demos.  It serves both as a way of storing notes for myself and for showing friends/fellow creators how I go about certain things.
 
