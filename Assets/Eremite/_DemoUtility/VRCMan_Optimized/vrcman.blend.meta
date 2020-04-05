@@ -1,9 +1,7 @@
 fileFormatVersion: 2
 guid: 788b37cbb8b618041a1953db94ca1602
-timeCreated: 1542070926
-licenseType: Free
 ModelImporter:
-  serializedVersion: 19
+  serializedVersion: 23
   fileIDToRecycleName:
     100000: Armature
     100002: Body
@@ -61,6 +59,37 @@ ModelImporter:
     100106: Thumb2_L
     100108: Thumb2_R
     100110: //RootNode
+    100112: CINEMA_4D_Editor
+    100114: IndexFinger3_L_end
+    100116: IndexFinger3_R_end
+    100118: Left ankle
+    100120: Left arm
+    100122: Left elbow
+    100124: Left knee
+    100126: Left leg
+    100128: Left shoulder
+    100130: Left toe
+    100132: Left toe_end
+    100134: Left wrist
+    100136: LeftEye_end
+    100138: LittleFinger3_L_end
+    100140: LittleFinger3_R_end
+    100142: MiddleFinger3_L_end
+    100144: MiddleFinger3_R_end
+    100146: Right ankle
+    100148: Right arm
+    100150: Right elbow
+    100152: Right knee
+    100154: Right leg
+    100156: Right shoulder
+    100158: Right toe
+    100160: Right toe_end
+    100162: Right wrist
+    100164: RightEye_end
+    100166: RingFinger3_L_end
+    100168: RingFinger3_R_end
+    100170: Thumb2_L_end
+    100172: Thumb2_R_end
     400000: Armature
     400002: Body
     400004: Chest
@@ -117,32 +146,75 @@ ModelImporter:
     400106: Thumb2_L
     400108: Thumb2_R
     400110: //RootNode
+    400112: CINEMA_4D_Editor
+    400114: IndexFinger3_L_end
+    400116: IndexFinger3_R_end
+    400118: Left ankle
+    400120: Left arm
+    400122: Left elbow
+    400124: Left knee
+    400126: Left leg
+    400128: Left shoulder
+    400130: Left toe
+    400132: Left toe_end
+    400134: Left wrist
+    400136: LeftEye_end
+    400138: LittleFinger3_L_end
+    400140: LittleFinger3_R_end
+    400142: MiddleFinger3_L_end
+    400144: MiddleFinger3_R_end
+    400146: Right ankle
+    400148: Right arm
+    400150: Right elbow
+    400152: Right knee
+    400154: Right leg
+    400156: Right shoulder
+    400158: Right toe
+    400160: Right toe_end
+    400162: Right wrist
+    400164: RightEye_end
+    400166: RingFinger3_L_end
+    400168: RingFinger3_R_end
+    400170: Thumb2_L_end
+    400172: Thumb2_R_end
     4300000: Body
     7400000: Default Take
     9500000: //RootNode
     13700000: Body
+    2186277476908879412: ImportLogs
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TextureAtlas_vrchatman
+    second: {fileID: 2100000, guid: 3a118a406b8ac2f4b93a367d44d71048, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
-    rigImportErrors: 
+    rigImportErrors: "Avatar creation failed:\n\tTransform 'Left_leg' for human bone
+      'LeftUpperLeg' not found\n"
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations: []
     isReadable: 1
   meshes:
@@ -150,22 +222,34 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
@@ -884,7 +968,6 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 1
