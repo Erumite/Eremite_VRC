@@ -4,6 +4,7 @@
 # Importing some crap we need.  If the script gripes about not having these
 #  modules, you should probably install them.  ~_O
 import requests
+import pickle
 from pygments import highlight, lexers, formatters
 import configparser
 import argparse
@@ -18,6 +19,26 @@ import os
 # Send friend requests/Remove Friends.
 # Send and check messages? Option to read message from file (for ascii art)
 
+# Path for storing data:
+data_path=os.path.expanduser('~/.vrc/')
+if not os.path.exists(data_path):
+    os.makedirs(data_path)
+
+# Secret worlds path
+secret_worlds=data_path + 'secretworlds.txt'
+if not os.path.exists(secret_worlds):
+    with open(secret_worlds, "w+") as secwld:
+        pass  # OSX workaround.
+
+with open(secret_worlds, "r") as secwld:
+    try:
+        swjson=json.loads(secwld.read())
+    except:
+        print("Secret World JSON invalid or corrupt.  Recreating.")
+        swjson=json.loads('{"secretWorlds": {}}')
+
+newsecretsfound=False
+
 ## Set the config file here:
 config_file=os.path.expanduser('~/.vrcapi.conf')
 
@@ -27,6 +48,8 @@ config_file=os.path.expanduser('~/.vrcapi.conf')
 #        https://api.vrchat.cloud/api/1/config/
 apiurl = "https://api.vrchat.cloud/api/1"
 apikey = "apiKey=JlE5Jldo5Jibnk5O5hTx6XVqsJu4WJ26"
+
+headers={'User-Agent': 'vrcapi.py'}
 
 # Doubt we'll need this, but let's keep things civil.
 os.nice(19)
@@ -59,9 +82,13 @@ parser.add_argument("-P", "--purge", help="Purge friends offline since X days. W
 parser.add_argument("-d", "--user-detail", help="More user detail with -U (and -u kindof)", action="store_true")
 parser.add_argument("-b", "--user_blocks", help="Users you have blocked.", action="store_true")
 parser.add_argument("-B", "--user_blocked", help="Users that blocked you.", action="store_true")
+parser.add_argument('--allblocks', help="Show all block/blocked mods.", action="store_true")
 parser.add_argument("-n", "--numlimit", help="Number of results. (Def:10|Max:100)", type=int, dest="numlimit", metavar="")
+parser.add_argument("-o", "--offset", help="Search offset.", type=int, dest="offset", metavar="")
 parser.add_argument("-r", "--raw", help="Print raw json output without parsing.", action="store_true")
+parser.add_argument("--custom", help="Custom Endpoint. (eg: /avatars/)", dest="customurl", metavar="")
 parser.add_argument("--setup", help="Input user/password to save to config file.", action="store_true")
+parser.add_argument("--relogin", help="Refetch auth cookie with stored cred hash.", action="store_true")
 parser.add_argument("--debug", dest="debug", help="Enable debug output for some things.", action='store_true')
 args = parser.parse_args()
 
@@ -78,7 +105,9 @@ if not args.setup:
     try:
         config.read(config_file)
         authkey=config.get('credentials', 'authkey')
-        headers = {'Authorization': 'Basic ' + authkey }
+        authcookie=config.get('credentials', 'authcookie')
+        cookies = {'auth': authcookie}
+        #headers.update({'Authorization': 'Basic ' + authkey }')
     except:
         print("No config file or auth key found. Run this: \033[1mvrcapi --setup\033[0m")
         sys.exit()
@@ -95,7 +124,12 @@ def worldsearch(term):
     if args.debug:
       print("\033[1mURI: \033[0m" + targeturi )
 
-    rjson = requests.get(targeturi, headers=headers)
+    rjson = requests.get(targeturi, cookies=cookies, headers=headers)
+    if rjson.status_code == 401:
+        print("401 Response.  Attempting Relogin.")
+        setup_user(True)
+        print("Re-run the command now.")
+        sys.exit()
     rjson=json.loads(rjson.content.decode('utf-8'))
 
     if args.raw:
@@ -111,7 +145,12 @@ def worldidsearch(wid):
     if args.debug:
       print("\033[1mURI: \033[0m" + targeturi)
 
-    rjson = requests.get(targeturi, headers=headers)
+    rjson = requests.get(targeturi, cookies=cookies, headers=headers)
+    if rjson.status_code == 401:
+        print("401 Response.  Attempting Relogin.")
+        setup_user(True)
+        print("Re-run the command now.")
+        sys.exit()
     rjson=json.loads(rjson.content.decode('utf-8'))
 
     if args.raw:
@@ -121,13 +160,18 @@ def worldidsearch(wid):
 
 # Search users by name, etc.
 def usersearch(term):
-    targeturi = 'https://api.vrchat.cloud/api/1/users/?search=' + term + '&' + apikey
+    targeturi = apiurl + '/users/?search=' + term + '&' + apikey
     targeturi = check_extra_args(targeturi)
 
     if args.debug:
         print("\033[1mURI: \033[0m" + targeturi)
 
-    rjson = requests.get(targeturi, headers=headers)
+    rjson = requests.get(targeturi, cookies=cookies, headers=headers)
+    if rjson.status_code == 401:
+        print("401 Response.  Attempting Relogin.")
+        setup_user(True)
+        print("Re-run the command now.")
+        sys.exit()
     rjson = json.loads(rjson.content.decode('utf-8'))
 
     if args.raw:
@@ -137,10 +181,15 @@ def usersearch(term):
 
 # Search users by userID
 def useridsearch(uid):
-    targeturi = 'https://api.vrchat.cloud/api/1/users/' + uid + '/?' + apikey
+    targeturi = apiurl + '/users/' + uid + '/?' + apikey
     targeturi = check_extra_args(targeturi)
 
-    rjson = requests.get(targeturi, headers=headers)
+    rjson = requests.get(targeturi, cookies=cookies, headers=headers)
+    if rjson.status_code == 401:
+        print("401 Response.  Attempting Relogin.")
+        setup_user(True)
+        print("Re-run the command now.")
+        sys.exit()
     rjson = json.loads(rjson.content.decode('utf-8'))
 
     if args.raw:
@@ -150,10 +199,18 @@ def useridsearch(uid):
 
 # Pull a list of currently online friends.
 def listfriends():
-    targeturi = 'https://api.vrchat.cloud/api/1/auth/user/friends/?' + apikey
+    targeturi = apiurl + '/auth/user/friends/?' + apikey
     targeturi = check_extra_args(targeturi)
+    rjson = requests.get(targeturi, cookies=cookies, headers=headers)
+    if rjson.status_code == 401:
+        print("401 Response.  Attempting Relogin.")
+        print(cookies)
+        print(rjson.content)
+        print(rjson.headers)
+        setup_user(True)
+        print("Re-run the command now.")
+        sys.exit()
 
-    rjson = requests.get(targeturi, headers=headers)
     rjson = json.loads(rjson.content.decode('utf-8'))
 
     if args.pubfriends:
@@ -180,9 +237,24 @@ def parse_world(w):
     except:
         instances = '?'
 
+    try:
+        if w['updated_at']:
+            import time
+            date_time = w['updated_at']
+            pattern = '%Y-%m-%dT%H:%M:%S.%fZ'
+            updateepoch = int(time.mktime(time.strptime(date_time, pattern)))
+            now = int(time.time())
+    except:
+        pass
+
+    if not w['id'] in swjson['secretWorlds']:
+        swjson['secretWorlds'][w['id']] = w['name']
+        global newsecretsfound
+        newsecretsfound = True
+
     # If -j is specified, print off a link to launch the world.
     if args.join_links:
-        launchlink = "\nhttps://www.vrchat.net/launch?worldId=" + w['id']
+        launchlink = "\nhttps://www.vrchat.com/launch?worldId=" + w['id']
     else:
         launchlink = ''
 
@@ -216,7 +288,7 @@ def parse_world(w):
                         pass
 
                 # Finally print a launch link if requested:
-                print("\033[1mLaunch:\033[0m https://www.vrchat.net/launch?worldId=" + w['id'] +
+                print("\033[1mLaunch:\033[0m https://www.vrchat.com/launch?worldId=" + w['id'] +
                    '&ref=vrchat.com&instanceId=' + i[0])
         except:
             print("Something broke parsing the instances.", sys.exc_info())
@@ -226,7 +298,7 @@ def getinstanceusers(wid, instance):
     targeturi = apiurl + '/worlds/' + wid + '/' + instance + '/?' + apikey
     if args.debug:
         print(targeturi)
-    userlist = requests.get(targeturi, headers=headers)
+    userlist = requests.get(targeturi, cookies=cookies, headers=headers)
     userlist = json.loads(userlist.content.decode('utf-8'))
     return(userlist)
 
@@ -286,7 +358,13 @@ def parse_user(u, detail=False):
     # Output all pretty-like.
     print('''{0:<12} \033[1m({1:^16}\033[0;1m)     {2:<35} {3:<42} \033[0;36m{4}\033[0m'''.format(worldicon, rank, displayname, uid, udesc).replace('(',socialcolor + '(').replace(')',socialcolor + ')'))
 
-    if detail is True and u['location'] != '':
+    if detail is True:
+        if u['bio'] != '':
+            print(u['bio'])
+        if u['bioLinks'] != []:
+            print(u['bioLinks'])
+
+    if detail is True and u['location'] not in ['', 'offline']:
         if u['location'] == 'private':
             print("\t👁 \033[1;31m Private World \033[0m👁")
         else:
@@ -315,7 +393,7 @@ def get_user_blocks():
     targeturi = apiurl + '/auth/user/playermoderations/?' + apikey
     if args.debug:
         print(targeturi)
-    blockees = requests.get(targeturi, headers=headers)
+    blockees = requests.get(targeturi, cookies=cookies, headers=headers)
     blockees = json.loads(blockees.content.decode('utf-8'))
 
     for blockee in blockees:
@@ -337,10 +415,16 @@ def get_user_blocked():
     targeturi = apiurl + '/auth/user/playermoderated/?' + apikey
     if args.debug:
         print(targeturi)
-    blockers = requests.get(targeturi, headers=headers)
+    blockers = requests.get(targeturi, cookies=cookies, headers=headers)
     blockers = json.loads(blockers.content.decode('utf-8'))
+    if args.allblocks:
+        blocktype=['']
+    else:
+        blocktype=["showAvatar", "unmute"]
+    if args.debug:
+        print(blockers)
     for blocker in blockers:
-        if blocker['type'] not in ["showAvatar", "unmute"]:
+        if blocker['type'] not in blocktype:
             if blocker["type"] == 'mute':
                 blocker["type"] = "\033[0;31m" + blocker["type"] + "\033[0m"
             elif blocker["type"] == 'block':
@@ -366,6 +450,10 @@ def check_extra_args(uri):
         uri = uri + "&n=" + str(args.numlimit)
     if args.world_tag:
         uri = uri + "&tag=" + str(args.world_tag)
+    if args.offset:
+        uri = uri + "&offset=" + str(args.offset)
+    if args.debug:
+        print(uri)
     return(uri)
 
 #
@@ -375,10 +463,15 @@ def purge_friends():
     offset=0
     offlinefriends=[]
     while True:
-        targeturi = 'https://api.vrchat.cloud/api/1/auth/user/friends/?n=100&offline=true&offset=' + str(offset) + '&' + apikey
+        targeturi = apiurl + '/auth/user/friends/?n=100&offline=true&offset=' + str(offset) + '&' + apikey
         targeturi = check_extra_args(targeturi)
 
-        rjson = requests.get(targeturi, headers=headers)
+        rjson = requests.get(targeturi, cookies=cookies, headers=headers)
+        if rjson.status_code == 401:
+            print("401 Response.  Attempting Relogin.")
+            setup_user(True)
+            print("Re-run the command now.")
+            sys.exit()
         rjson = json.loads(rjson.content.decode('utf-8'))
 
         if len(rjson) == 0:
@@ -388,11 +481,14 @@ def purge_friends():
         offset += 100
 
     for friend in offlinefriends:
-        targeturi = 'https://api.vrchat.cloud/api/1/users/' + friend['id'] + '/?' + apikey
-        rjson = requests.get(targeturi, headers=headers)
+        targeturi = apiurl + '/users/' + friend['id'] + '/?' + apikey
+        rjson = requests.get(targeturi, cookies=cookies, headers=headers)
         rjson = json.loads(rjson.content.decode('utf-8'))
-        dt=datetime.strptime(rjson['last_login'], '%Y-%m-%dT%H:%M:%S.%fZ')
-        dt=datetime.now() - dt
+        try:
+          dt = datetime.strptime(rjson['last_login'], '%Y-%m-%dT%H:%M:%S.%fZ')
+        except:
+          dt = datetime.strptime('2000-01-01T00:00:00.000Z', '%Y-%m-%dT%H:%M:%S.%fZ')
+        dt = datetime.now() - dt
 
         if args.purgeabledays:
             pdays=int(args.purgeabledays)
@@ -400,27 +496,63 @@ def purge_friends():
             pdays=int(args.purgedays)
 
         if dt.days > pdays or pdays == 0:
-            print ("\033[1;30m{0:<5}\033[0m ".format(dt.days), end='')
+            print("\033[1;30m{0:<5}\033[0m ".format(dt.days), end='')
             parse_user(friend)
             if args.purgedays:
                 print("This will eventually ask if you want to purge the user.")
 
 
-# Read User/Pass, base64 encode, save to or update config file.
-def setup_user():
-    # Doin' imports for these here since we won't need them usually.
-    from getpass import getpass
-    import base64
-    print("""   This will ask for your VRChat username and password to generate
-    an auth token to save to a config file.  How much do you trust me?""")
+# Hit up a specific endpoint specified by the arguments.
+def specific_endpoint(uri):
+    targeturi = apiurl + uri + '?' + apikey
+    targeturi = check_extra_args(targeturi)
+    if args.debug:
+        print(targeturi)
+    response = requests.get(targeturi, cookies=cookies, headers=headers)
+    response = json.loads(response.content.decode('utf-8'))
 
-    vrcuser=input("VRChat User: ")
-    vrcpass=getpass("VRChat Pass: ")
-    vrcuser=bytes(vrcuser, encoding="UTF8")
-    vrcpass=bytes(vrcpass, encoding="UTF8")
-    vrchash=vrcuser + b':' + vrcpass
-    vrchash = base64.b64encode(vrchash)
-    vrchash = vrchash.decode("UTF8")
+    print_raw_json(response)
+
+# Read User/Pass, base64 encode, save to or update config file.
+def setup_user(authed=False):
+    # Doin' imports for these here since we won't need them usually.
+    if not authed:
+        from getpass import getpass
+        import base64
+        print("""   This will ask for your VRChat username and password to generate
+        an auth token to save to a config file.  How much do you trust me?""")
+
+        vrcuser=input("VRChat User: ")
+        vrcpass=getpass("VRChat Pass: ")
+        vrcuser=bytes(vrcuser, encoding="UTF8")
+        vrcpass=bytes(vrcpass, encoding="UTF8")
+        vrchash=vrcuser + b':' + vrcpass
+        vrchash = base64.b64encode(vrchash)
+        vrchash = vrchash.decode("UTF8")
+    else:
+        config.read(config_file)
+        vrchash=config.get('credentials', 'authkey')
+
+    print(authcookie)
+    # Debugging why it doesn't always work:
+    #if not args.relogin:
+    #    sys.exit()
+    targeturi = apiurl + '/auth/user/?' + apikey
+    headers.update({'Authorization': 'Basic ' + vrchash})
+
+    session=requests.Session()
+    resp = session.get(targeturi, headers=headers)
+    cookie = resp.cookies.get("auth")
+    cookies = resp.cookies
+    print(resp.cookies)
+    if 'requiresTwoFactorAuth' in str(resp.content):
+        print("requiresTwoFactorAuth")
+        tfacode=input("2FA Code:")
+        data={"code": tfacode}
+        targeturi = apiurl + "/auth/twofactorauth/totp/verify/?" + apikey
+        resp2 = session.post(targeturi, data=data, cookies=resp.cookies, headers=headers)
+        print(resp2.content)
+
 
     print("""    -- Writing changes to config file. --
     You shouldn't need to do this again unless you change accounts.
@@ -430,6 +562,12 @@ def setup_user():
     except configparser.NoSectionError:
         config.add_section('credentials')
         config.set("credentials", "authkey", vrchash)
+
+    try:
+        config.set("credentials", "authcookie", cookie)
+    except configparser.NoSectionError:
+        config.add_section('credentials')
+        config.set("credentials", "authcookie", cookie)
 
     with open(config_file, 'w+') as configfile:
       config.write(configfile)
@@ -452,6 +590,14 @@ elif args.user_blocked:
 elif args.purgedays or args.purgeabledays:
     purge_friends()
 elif args.setup:
-    setup_user()
+    setup_user(False)
+elif args.relogin:
+    setup_user(True)
+elif args.customurl:
+    specific_endpoint(args.customurl)
 else:
     parser.print_help()
+
+if newsecretsfound:
+    with open(secret_worlds, "w") as secwld:
+        secwld.write(json.dumps(swjson))
