@@ -354,9 +354,23 @@ def parse_user(u, detail=False):
     except:
         worldicon="?"
 
+    try:
+        if u['status'] == "active":
+            status="\033[1;32m●\033[0m"
+        elif u['status'] == "join me":
+            status="\033[0;36m●\033[0m"
+        elif u['status'] == "ask me":
+            status="\033[0;33m●\033[0m"
+        elif u['status'] == "busy":
+            status="\033[1;31m●\033[0m"
+        else:
+            status="\033[0m●\033[0m"
+    except:
+        status="\033[0m●\033[0m"
+
     uid = u['id']
     # Output all pretty-like.
-    print('''{0:<12} \033[1m({1:^16}\033[0;1m)     {2:<35} {3:<42} \033[0;36m{4}\033[0m'''.format(worldicon, rank, displayname, uid, udesc).replace('(',socialcolor + '(').replace(')',socialcolor + ')'))
+    print('''{0:<12} {5:<5} \033[1m({1:^16}\033[0;1m)     {2:<35} {3:<42} \033[0;36m{4}\033[0m'''.format(worldicon, rank, displayname, uid, udesc, status).replace('(',socialcolor + '(').replace(')',socialcolor + ')'))
 
     if detail is True:
         if u['bio'] != '':
