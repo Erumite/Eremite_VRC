@@ -5,10 +5,10 @@
 
 Shader "Eremite/hand_drawn/dark" {
     Properties {
-        _LineThickness ("Line Thickness", Range(0, 0.01)) = 0
-        _OutBlack ("Out Black", Float ) = 0
-        _OutWhite ("Out White", Float ) = 0
-        _Sharp ("Sharp", Float ) = 0
+        _LineThickness ("Line Thickness", Range(0, 0.01)) = 0.003
+        _OutBlack ("Out Black", Float ) = 5.5
+        _OutWhite ("Out White", Float ) = -3.65
+        _Sharp ("Sharp", Float ) = 30
     }
     SubShader {
         Tags {
