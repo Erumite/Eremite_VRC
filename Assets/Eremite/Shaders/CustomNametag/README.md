@@ -57,10 +57,12 @@ As of May 8, 2020, there's a new addendum under `Avatar Modifications`:
 * Avatars must not hide, obstruct, add/remove elements from, or affect/modify the appearance of the VRChat UI (such as nameplates).
 
 This was in response to this custom nameplate (which is much better than my version): 
-https://www.patreon.com/posts/vanity-download-36841063
-https://www.patreon.com/posts/36901943
 
-Relevant canny post: https://vrchat.canny.io/feature-requests/p/specify-malicious-use-in-the-community-guidelines-for-nameplate-modification
+* https://www.patreon.com/posts/vanity-download-36841063
+* https://www.patreon.com/posts/36901943
+
+Relevant canny post:
+* https://vrchat.canny.io/feature-requests/p/specify-malicious-use-in-the-community-guidelines-for-nameplate-modification
 
 ## Issues:
 Doesn't show up right in mirrors.  The mirror reflects the name tag as you'd expect it to based on its rotation in the world, while the shader will always face the camera on both the real and mirror reflected versions.  This shouldn't be a problem in most worlds as most people disable UI/nametags in the mirror as part of optimizations.
