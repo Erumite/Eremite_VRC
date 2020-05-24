@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 7db9feda4caed1c4caf8d0002ba47002
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _HologramTex: {fileID: 2800000, guid: bfe4769db15cb2940b1d758cc8406bc4, type: 3}
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
