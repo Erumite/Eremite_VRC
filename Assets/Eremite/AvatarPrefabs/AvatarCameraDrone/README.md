@@ -1,6 +1,11 @@
 # Avatar Camera Drone
 AKA: The ERP Killer
 
+**NOTES**:
+ * This *requires* FinalIK.  
+  * I'll eventually remake one that works on Constraints.
+ * I packaged the `.unitypackage` long after the prefabs were set up and haven't tested the package.  If it's not working, try cloning the whole repository and drag the `Eremite` folder into `Assets`
+
 A drone that can be summoned and flown around at will using a series of joints.
 
 In this example, there's a camera attached and a render texture outputting to a screen for flying around.  The possibilities are pretty much endless though:
