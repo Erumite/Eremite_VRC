@@ -10,7 +10,7 @@ This package is pretty much just a demo of how to get an "always-on" chair worki
  * Drag the whole object, not just the sphere
 3. Delete Visualization sphere or replace it with your own mesh.
 
-The animator on the `VRCStationFix` object will enable the `VRC_Station` object, then disable its own animator for optimization.
+The animator on the `VRCStationFix` object will enable the `VRC_Station` object, then disable its own animator for optimization. [[Demo](https://i.imgur.com/PcuEBAJ.mp4)]
 
 The shape of the chair highlight on the avatar will match the collider on the `VRC_Station` object.  This is a sphere in the prefab, but can be changed to whatever.  
 *Note: If no collider is specified, the highlight will default to a massive 1x1 cube, so you'll probably want to provide a collider.*
