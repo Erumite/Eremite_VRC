@@ -11,6 +11,8 @@ Improved a bit with some configurable joint and rigidbody magic to allow control
 * Toggle the flying off for quick descent.
 * Smooth hovering while standing still, very slow altitude loss.
 
+*NOTE: As of Unity 2018, this is possible with constraints, but seems to be less stable.  Needs more testing.*
+
 ### Preview, kinda:
 ![](https://i.imgur.com/7M90HU5.png)
 
