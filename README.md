@@ -5,6 +5,10 @@ This repo is here to contain a bunch of VRChat related notes, prefabs and demos.
 
 There are various `README.md` files sprinkled around the repo that have more information about the specific folder.  Please refer to them for more detail.
 
+#### How do I download this?
+I've started trying to include a `.unitypackage` for most things I've considered finished.  
+
+However, the best way it to click the big green `Clone or Download` button near the top right and download a zip, then grab whatever you need.  To avoid missing dependencies, you might want to just copy the entire `Eremite` folder to `Assets/Eremite`; that way the demo scenes work and anything shared between prefabs doesn't show up as missing.
 
 #### Releases:
 Mostly done projects that are in a working state.
