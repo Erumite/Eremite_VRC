@@ -2,6 +2,9 @@
 #### Codename: Magic Carpet Ride
 New setup of the flying rig that works pretty decently with after version 772.
 
+**This works best on desktop**, but is usable in VR with some practice.  
+The problem with VR comes when you tilt your head side-to-side; this causes you to spin in the direction your head is tilted.
+
 Improved a bit with some configurable joint and rigidbody magic to allow control:
 * Look up to gain altitude.
 * Look down to fly downward/land.
@@ -12,10 +15,11 @@ Improved a bit with some configurable joint and rigidbody magic to allow control
 ![](https://i.imgur.com/7M90HU5.png)
 
 ### Setup
-1. Drag the `lolfly` prefab into the avatar game object (alongside armature/body)
-2. Drag the `fly_target` prefab into the armature as a child of the head.
-3. Select `lolfly/pitterpat` and set `fly_target` as Configurable Joint's `Connected Body`
+1. Drag the `DesktopFlyingPrefab` prefab into the scene.
+2. Drag the `lolfly` game object into the avatar game object (alongside armature/body)
+3. Drag the `fly_target` game object into the armature as a child of the head.
 4. Add or edit the `takeoff` animation to your overrides.
+*NOTE: The `lolfly/pitterpat` object should have its configurable joint's connected body set to `fly_target`.  It should stay linked since they're both in the prefab, but may need confirming if the plane isn't moving.*
 
 Optional:
 5. Disable the mesh renderer for `lolfly/pitterpat` and add your own effects.  It's just there to demo how it works.
@@ -27,7 +31,9 @@ Optional:
 ### Troubleshooting
 *(This looks like a lot of things that can go wrong, but overall it's very stable.)*
 
-Your mileage may vary depending on the walking/running/crouching/etc animation that you are using.
+Your mileage may vary depending on the walking/running/crouching/etc animation that you are using, as well as your rig setup.
+
+**Make sure you have no problems with your humanoid rig** first and foremost.  Enforcing T-Pose can help with this.
 
 This works fantastically with my own animation, but the default walk animations for VRChat act strangely; Looking downward causes the avatar to shoot forward pretty quickly.  This may be desirable for some people, so play with different movement animations until you find something that fits the flying style you want.
 
