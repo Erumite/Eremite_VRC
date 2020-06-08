@@ -1,7 +1,13 @@
 # Launch Pads
-Just a fun unity trick that launches your player when you step off of the launch pad's collider.
+Just a fun unity trick that launches your player when you step off of the launch pad's collider.  Works with SDK2 also.
 
 This bug got introduced in the 2017 version and persists in 2018.  It may be fixed in future versions though.
+
+The bug manifests if you have:
+* A parent object with a rigidbody.
+* A scaled-down child object with a collider.
+
+That's it.  I just added a rigidbody to a game object scaled up, then scaled down a child mesh and added a collider.  Super simple and fun.
 
 Demo Vid: https://imgur.com/5aV25ka
 
