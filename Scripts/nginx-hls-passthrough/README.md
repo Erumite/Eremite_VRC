@@ -13,3 +13,11 @@ ffmpeg -re -i "${video}" -vcodec libx264 -vprofile baseline -g 30 -acodec aac -s
 ```
 
 Plug the `.m3u8` file into the VRC stream player to play it: `http://your.domain:8080/hls/stream.m3u8` (IP also works)
+
+
+Managed to get image size pretty small also, so that's nice. :3  
+
+```
+REPOSITORY           TAG                 IMAGE ID            CREATED             SIZE
+eremite/nginxhls     latest              4989cf43c7ec        2 hours ago         18.8MB
+```
