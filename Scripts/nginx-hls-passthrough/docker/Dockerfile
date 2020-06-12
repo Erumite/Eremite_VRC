@@ -13,5 +13,6 @@ RUN apk update --no-cache && \
 VOLUME ["/var/log/nginxhls/"]
 VOLUME ["/mnt/hls"]
 ADD --chown=root:root ["./conf/nginx.conf", "/etc/nginx/nginx.conf"]
+ADD --chown=root:root ["./conf/stat.xsl", "/usr/local/nginx/html/"]
 
 CMD ["/usr/local/nginx/sbin/nginx", "-c", "/etc/nginx/nginx.conf"]
