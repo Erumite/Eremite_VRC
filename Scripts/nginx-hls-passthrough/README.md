@@ -18,16 +18,9 @@ https://smartshitter.com/musings/2017/12/nginx-rtmp-streaming-with-simple-authen
 
 3. Use the same password as the `key` query string argument when streaming a file via FFMPEG:
 
-Little script you can pass a video/stream name to:
+Sample streaming with ffmpeg.  See included `streamVid.sh` as an example.
 ```shell
-#! /bin/bash
-video="${1}"
-stream="${2:-stream}"
-password="EremiteSucks"
-
-echo -e "Stream will be available at:\033[1m http://your.domain:8080/hls/${stream}.m3u8 \033[0m"
-
-ffmpeg -re -i "${video}" -vcodec libx264 -vprofile baseline -g 30 -acodec aac -strict -2 -f flv rtmp://1.2.3.4:1935/show/${stream}?key=${password}
+ffmpeg -re -i "${video}" -vcodec libx264 -vprofile baseline -g 30 -acodec aac -strict -2 -f flv rtmp://${serverIP}:1935/show/${stream}?key=${password}
 ```
 You can also apparently stream with OBS or VLC; anything that can send to an RTMP stream, really.
 
