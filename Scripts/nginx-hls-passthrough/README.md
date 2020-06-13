@@ -6,6 +6,9 @@ https://docs.peer5.com/guides/setting-up-hls-live-streaming-server-using-nginx/
 Also props to this guy for finding a clever way to add authentication to streaming:  
 https://smartshitter.com/musings/2017/12/nginx-rtmp-streaming-with-simple-authentication/
 
+Stream will currently die when the video file ends.  If you start streaming a new video, everyone needs to click resync.
+Possible fix: https://github.com/Hakkin/streamRIP
+
 ---
 
 ### Streaming
