@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: RightGestureMask
+  m_Mask: 00000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: delete
+    m_Weight: 0
+  - m_Path: pelvis
+    m_Weight: 1
+  - m_Path: pelvis/L_thigh
+    m_Weight: 1
+  - m_Path: pelvis/L_thigh/L_knee
+    m_Weight: 1
+  - m_Path: pelvis/L_thigh/L_knee/L_foot
+    m_Weight: 1
+  - m_Path: pelvis/L_thigh/L_knee/L_foot/L_toe
+    m_Weight: 1
+  - m_Path: pelvis/R_thigh
+    m_Weight: 1
+  - m_Path: pelvis/R_thigh/R_knee
+    m_Weight: 1
+  - m_Path: pelvis/R_thigh/R_knee/R_foot
+    m_Weight: 1
+  - m_Path: pelvis/R_thigh/R_knee/R_foot/R_toe
+    m_Weight: 1
+  - m_Path: pelvis/spine
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/L_shoulder
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/L_shoulder/L_Arm
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/L_shoulder/L_Arm/L_Forearm
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/L_shoulder/L_Arm/L_Forearm/L_hand
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/L_shoulder/L_Arm/L_Forearm/L_hand/L_index01
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/L_shoulder/L_Arm/L_Forearm/L_hand/L_index01/L_index02
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/L_shoulder/L_Arm/L_Forearm/L_hand/L_index01/L_index02/L_index03
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/L_shoulder/L_Arm/L_Forearm/L_hand/L_middle01
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/L_shoulder/L_Arm/L_Forearm/L_hand/L_middle01/L_middle02
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/L_shoulder/L_Arm/L_Forearm/L_hand/L_middle01/L_middle02/L_middle03
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/L_shoulder/L_Arm/L_Forearm/L_hand/L_pinky01
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/L_shoulder/L_Arm/L_Forearm/L_hand/L_pinky01/L_pinky02
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/L_shoulder/L_Arm/L_Forearm/L_hand/L_pinky01/L_pinky02/L_pinky03
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/L_shoulder/L_Arm/L_Forearm/L_hand/L_thumb01
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/L_shoulder/L_Arm/L_Forearm/L_hand/L_thumb01/L_thumb02
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/L_shoulder/L_Arm/L_Forearm/L_hand/L_thumb01/L_thumb02/L_thumb03
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/L_shoulder/L_Arm/L_Forearm/L_hand/L_wedding01
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/L_shoulder/L_Arm/L_Forearm/L_hand/L_wedding01/L_wedding02
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/L_shoulder/L_Arm/L_Forearm/L_hand/L_wedding01/L_wedding02/L_wedding03
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/neck
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/neck/head
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/R_shoulder
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/R_shoulder/R_arm
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/R_shoulder/R_arm/R_forearm
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/R_shoulder/R_arm/R_forearm/R_hand
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/R_shoulder/R_arm/R_forearm/R_hand/R_index01
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/R_shoulder/R_arm/R_forearm/R_hand/R_index01/R_index02
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/R_shoulder/R_arm/R_forearm/R_hand/R_index01/R_index02/R_index03
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/R_shoulder/R_arm/R_forearm/R_hand/R_Middle01
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/R_shoulder/R_arm/R_forearm/R_hand/R_Middle01/R_Middle02
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/R_shoulder/R_arm/R_forearm/R_hand/R_Middle01/R_Middle02/R_Middle03
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/R_shoulder/R_arm/R_forearm/R_hand/R_Pinky01
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/R_shoulder/R_arm/R_forearm/R_hand/R_Pinky01/R_Pinky02
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/R_shoulder/R_arm/R_forearm/R_hand/R_Pinky01/R_Pinky02/R_Pinky03
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/R_shoulder/R_arm/R_forearm/R_hand/R_thumb01
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/R_shoulder/R_arm/R_forearm/R_hand/R_thumb01/R_thumb02
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/R_shoulder/R_arm/R_forearm/R_hand/R_thumb01/R_thumb02/R_thumb03
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/R_shoulder/R_arm/R_forearm/R_hand/R_Wedding01
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/R_shoulder/R_arm/R_forearm/R_hand/R_Wedding01/R_Wedding02
+    m_Weight: 0
+  - m_Path: pelvis/spine/chest/R_shoulder/R_arm/R_forearm/R_hand/R_Wedding01/R_Wedding02/R_Wedding03
+    m_Weight: 0
