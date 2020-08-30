@@ -32,9 +32,13 @@ REM   eg: \VRChat\HTTPCache_Real
 
 imdisk -d -m V:
 rmdir C:\Users\%USERNAME%\AppData\LocalLow\VRChat\vrchat\HTTPCache
+rmdir C:\Users\%USERNAME%\AppData\LocalLow\VRChat\vrchat\HTTPCache-WindowsPlayer
 rmdir C:\Users\%USERNAME%\AppData\LocalLow\VRChat\vrchat\VRCHTTPCache
+rmdir C:\Users\%USERNAME%\AppData\LocalLow\VRChat\vrchat\Cache-WindowsPlayer
 mklink /d C:\Users\%USERNAME%\AppData\LocalLow\VRChat\vrchat\HTTPCache D:\VRChat\HTTPCache
+mklink /d C:\Users\%USERNAME%\AppData\LocalLow\VRChat\vrchat\HTTPCache-WindowsPlayer D:\VRChat\HTTPCache-WindowsPlayer
 mklink /d C:\Users\%USERNAME%\AppData\LocalLow\VRChat\vrchat\VRCHTTPCache D:\VRChat\VRCHTTPCache
+mklink /d C:\Users\%USERNAME%\AppData\LocalLow\VRChat\vrchat\Cache-WindowsPlayer D:\VRChat\Cache-WindowsPlayer
 
 echo Disk Unmounted.  Enter to re-mount.  Exit to skip.
 pause
@@ -46,8 +50,14 @@ REM   unused drive letter in the commands below.  Tweak size if necessary.
 imdisk -a -s 12G -m V: -o awe -p "/fs:ntfs /q /y"
 mkdir V:\VRChat
 mkdir V:\VRChat\HTTPCache
+mkdir V:\VRChat\HTTPCache-WindowsPlayer
 mkdir V:\VRChat\VRCHTTPCache
+mkdir V:\VRChat\Cache-WindowsPlayer
 rmdir C:\Users\%USERNAME%\AppData\LocalLow\VRChat\vrchat\HTTPCache
+rmdir C:\Users\%USERNAME%\AppData\LocalLow\VRChat\vrchat\HTTPCache-WindowsPlayer
 rmdir C:\Users\%USERNAME%\AppData\LocalLow\VRChat\vrchat\VRCHTTPCache
+rmdir C:\Users\%USERNAME%\AppData\LocalLow\VRChat\vrchat\Cache-WindowsPlayer
 mklink /d C:\Users\%USERNAME%\AppData\LocalLow\VRChat\vrchat\HTTPCache V:\VRChat\HTTPCache
+mklink /d C:\Users\%USERNAME%\AppData\LocalLow\VRChat\vrchat\HTTPCache-WindowsPlayer V:\VRChat\HTTPCache-WindowsPlayer
 mklink /d C:\Users\%USERNAME%\AppData\LocalLow\VRChat\vrchat\VRCHTTPCache V:\VRChat\VRCHTTPCache
+mklink /d C:\Users\%USERNAME%\AppData\LocalLow\VRChat\vrchat\Cache-WindowsPlayer V:\VRChat\Cache-WindowsPlayer
