@@ -123,4 +123,4 @@ Stuff that can go wrong in the child instance:
 
 If you want to add extra screens or other embellishments that reference the screen contents, use the included spec reference image and keep in mind that you need live and child versions of all screens.
 
-![Specsheet](Assets/Eremite/FunStuff/PresenceBroadcast/PresenceBroadcastSpec.png)
+![Specsheet](/Assets/Eremite/FunStuff/PresenceBroadcast/PresenceBroadcastSpec.png)
