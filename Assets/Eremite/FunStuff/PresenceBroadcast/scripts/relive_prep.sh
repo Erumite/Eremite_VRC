@@ -12,7 +12,7 @@
 # Change to anything but 'true' to disable.
 #  If 'true', only encode the first ${debugtime} seconds for testing.
 debug='true'
-debugtime='30'
+debugtime='5'
 
 function showhelp() {
   echo -e '
@@ -46,12 +46,14 @@ function relivevid() {
     return 1
   fi
 
-  ffmpeg ${testtime} -i ${visuals} ${time} -i ${relive} -filter_complex \
+  ffmpeg ${testtime} -i ${visuals} ${testtime} -i ${relive} -filter_complex \
     "[0:v]scale=900:506,pad=1280:720:0:0[v]; \
      [v]split[m][a]; \
      [a]geq='if(gt(lum(X,Y),16),255,0)',hue=s=0[al]; \
      [m][al]alphamerge[vis]; \
-     [1:v]crop=380:720:900:0,scale=380:-1,pad=1280:720:900:0[cam]; \
+     [1:v]scale=1280:720[c]; \
+     [c]crop=380:720:900:0,scale=380:-1,pad=1280:720:900:0,yadif,format=rgb24[c2]; \
+     [c2]lutrgb=r='if(lte(val,20),0,val)':g='if(lte(val,20),0,val)':b='if(lte(val,20),3,val)'[cam]; \
      [cam][vis]overlay=0:0[vid] \
     " \
     -map [vid] \
