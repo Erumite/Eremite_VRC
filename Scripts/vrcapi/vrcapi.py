@@ -4,7 +4,6 @@
 # Importing some crap we need.  If the script gripes about not having these
 #  modules, you should probably install them.  ~_O
 import requests
-import pickle
 from pygments import highlight, lexers, formatters
 import configparser
 import argparse
@@ -13,52 +12,52 @@ import re
 import sys
 import os
 
-## To do:
+# To do:
 # Clear your blocklist, possibly option for older than X months/days.
 # Friend List Purge based on last-online time.
 # Send friend requests/Remove Friends.
 # Send and check messages? Option to read message from file (for ascii art)
 
 # Path for storing data:
-data_path=os.path.expanduser('~/.vrc/')
+data_path = os.path.expanduser('~/.vrc/')
 if not os.path.exists(data_path):
     os.makedirs(data_path)
 
 # Secret worlds path
-secret_worlds=data_path + 'secretworlds.txt'
+secret_worlds = data_path + 'secretworlds.txt'
 if not os.path.exists(secret_worlds):
     with open(secret_worlds, "w+") as secwld:
         pass  # OSX workaround.
 
 with open(secret_worlds, "r") as secwld:
     try:
-        swjson=json.loads(secwld.read())
-    except:
+        swjson = json.loads(secwld.read())
+    except FileNotFoundError:
         print("Secret World JSON invalid or corrupt.  Recreating.")
-        swjson=json.loads('{"secretWorlds": {}}')
+        swjson = json.loads('{"secretWorlds": {}}')
 
-newsecretsfound=False
+newsecretsfound = False
 
-## Set the config file here:
-config_file=os.path.expanduser('~/.vrcapi.conf')
+#  Set the config file here:
+config_file = os.path.expanduser('~/.vrcapi.conf')
 
-############### Shouldn't need to touch this stuff ############################
+# ############## Shouldn't need to touch this stuff ###########################
 # "HURR, he posted his API key to GitHub! XD"
 #  This is the public API key that everyone uses:
 #        https://api.vrchat.cloud/api/1/config/
 apiurl = "https://api.vrchat.cloud/api/1"
 apikey = "apiKey=JlE5Jldo5Jibnk5O5hTx6XVqsJu4WJ26"
 
-headers={'User-Agent': 'vrcapi.py'}
+headers = {'User-Agent': 'vrcapi.py'}
 
 # Doubt we'll need this, but let's keep things civil.
 os.nice(19)
 
 # colors for prettiness & readability
-col_bold="\033[1m"
-col_norm="\033[0m"
-col_red="\033[31m"
-col_green="\033[32m"
+col_bold = "\033[1m"
+col_norm = "\033[0m"
+col_red = "\033[31m"
+col_green = "\033[32m"
 
 # Lets's set up a parser to specify search types.
 description_text = '\033[1m....:::: Unofficial Script for pulling info from VRChat API ::::....\033[0m'
@@ -73,6 +72,7 @@ parser.add_argument("-i", "--show-instances", help="Show details of world instan
 parser.add_argument("-I", "--show-instance-users", help="Show MORE detail of world. (with -W)", action="store_true")
 parser.add_argument("-t", "--tag", help="Tags to search for worlds. (with -w)", dest="world_tag", metavar='')
 parser.add_argument("-j", "--join-links", help="Include join links in world output.", action="store_true")
+parser.add_argument("-J", "--join-command", help="Print command for shortcuts/cmd.exe", action="store_true")
 parser.add_argument("-u", "--users", help="Search users for specified string/name.", dest="user_search", metavar="")
 parser.add_argument("-U", "--user", help="Search users by specific UserID", dest="userid_search", metavar="")
 parser.add_argument("-f", "--friends", help="List all online friends.", action="store_true")
@@ -88,6 +88,7 @@ parser.add_argument("-o", "--offset", help="Search offset.", type=int, dest="off
 parser.add_argument("-r", "--raw", help="Print raw json output without parsing.", action="store_true")
 parser.add_argument("--custom", help="Custom Endpoint. (eg: /avatars/)", dest="customurl", metavar="")
 parser.add_argument("--setup", help="Input user/password to save to config file.", action="store_true")
+parser.add_argument("--profile", help="Number of login profile to use.", default="", dest="profile", metavar="")
 parser.add_argument("--relogin", help="Refetch auth cookie with stored cred hash.", action="store_true")
 parser.add_argument("--debug", dest="debug", help="Enable debug output for some things.", action='store_true')
 args = parser.parse_args()
@@ -104,25 +105,23 @@ config = configparser.ConfigParser()
 if not args.setup:
     try:
         config.read(config_file)
-        authkey=config.get('credentials', 'authkey')
-        authcookie=config.get('credentials', 'authcookie')
+        authkey = config.get('credentials', 'authkey' + args.profile)
+        authcookie = config.get('credentials', 'authcookie' + args.profile)
         cookies = {'auth': authcookie}
-        #headers.update({'Authorization': 'Basic ' + authkey }')
+        # headers.update({'Authorization': 'Basic ' + authkey }')
     except:
         print("No config file or auth key found. Run this: \033[1mvrcapi --setup\033[0m")
         sys.exit()
 
+#  Some functions for doing the API hits.
 
 
-## Some functions for doing the API hits.
-
-# Search world by search term (keyword, author name, etc)
 def worldsearch(term):
     targeturi = apiurl + "/worlds/?" + apikey + '&search="' + term + '"'
     targeturi = check_extra_args(targeturi)
 
     if args.debug:
-      print("\033[1mURI: \033[0m" + targeturi )
+        print("\033[1mURI: \033[0m" + targeturi)
 
     rjson = requests.get(targeturi, cookies=cookies, headers=headers)
     if rjson.status_code == 401:
@@ -130,20 +129,20 @@ def worldsearch(term):
         setup_user(True)
         print("Re-run the command now.")
         sys.exit()
-    rjson=json.loads(rjson.content.decode('utf-8'))
+    rjson = json.loads(rjson.content.decode('utf-8'))
 
     if args.raw:
         print_raw_json(rjson)
     else:
         parse_multiple_worlds(rjson)
 
-# search by World ID
-def worldidsearch(wid):
+
+def worldidsearch(wid, location=''):
     targeturi = apiurl + "/worlds/" + wid + "/?" + apikey
     targeturi = check_extra_args(targeturi)
 
     if args.debug:
-      print("\033[1mURI: \033[0m" + targeturi)
+        print("\033[1mURI: \033[0m" + targeturi)
 
     rjson = requests.get(targeturi, cookies=cookies, headers=headers)
     if rjson.status_code == 401:
@@ -151,14 +150,14 @@ def worldidsearch(wid):
         setup_user(True)
         print("Re-run the command now.")
         sys.exit()
-    rjson=json.loads(rjson.content.decode('utf-8'))
+    rjson = json.loads(rjson.content.decode('utf-8'))
 
     if args.raw:
         print_raw_json(rjson)
     else:
-        parse_world(rjson)
+        parse_world(rjson, location=location)
 
-# Search users by name, etc.
+
 def usersearch(term):
     targeturi = apiurl + '/users/?search=' + term + '&' + apikey
     targeturi = check_extra_args(targeturi)
@@ -179,7 +178,7 @@ def usersearch(term):
     else:
         parse_multiple_users(rjson)
 
-# Search users by userID
+
 def useridsearch(uid):
     targeturi = apiurl + '/users/' + uid + '/?' + apikey
     targeturi = check_extra_args(targeturi)
@@ -197,7 +196,7 @@ def useridsearch(uid):
     else:
         parse_user(rjson, args.user_detail)
 
-# Pull a list of currently online friends.
+
 def listfriends():
     targeturi = apiurl + '/auth/user/friends/?' + apikey
     targeturi = check_extra_args(targeturi)
@@ -221,15 +220,13 @@ def listfriends():
     else:
         parse_multiple_users(rjson, args.user_detail)
 
-## Some helper functions for formatting worlds/users:
 
-# Wrapper for parse_world for handling multiple worlds in json.
 def parse_multiple_worlds(wjson):
     for w in wjson:
         parse_world(w)
 
-# Output info about a world:
-def parse_world(w):
+
+def parse_world(w, location=''):
     # If instances is defined (-W search), set the number here
     # Else set it to '?' if it doesn't exist (-w search)
     try:
@@ -250,18 +247,33 @@ def parse_world(w):
     if not w['id'] in swjson['secretWorlds']:
         swjson['secretWorlds'][w['id']] = w['name']
         global newsecretsfound
+        print("  *** Secret Unlocked! (New Unlisted World) ***")
         newsecretsfound = True
 
     # If -j is specified, print off a link to launch the world.
+    jlink = w['id']
+    if location != '':
+        jlink = jlink + ":" + location
+
     if args.join_links:
-        launchlink = "\nhttps://www.vrchat.com/launch?worldId=" + w['id']
+        launchlink = "\nhttps://www.vrchat.com/launch?worldId=" + jlink
+    elif args.join_command:
+        launchlink = '''\n
+"C:\Program Files (x86)\Steam\steamapps\common\VRChat\VRChat.exe" \
+--no-vr -force-d3d11-no-singlethreaded --enable-debug-gui --profile=1 \
+"vrchat://launch?ref=vrchat.com&id={}"'''.format(jlink)
     else:
         launchlink = ''
+
+    try:
+        visits = w['visits']
+    except KeyError:
+        visits = '?'
 
     # Print off some information about the world all pretty-like.
     print('''\033[1mName: \033[0m\033[1;36m{0:<48}\033[0m \033[1mAuthor:\033[0m {6:<38}
 {1:<46} \033[1mOcc:\033[0m {2:<3} \033[1mCap:\033[0m {3:<3} \033[1mInst:\033[0m {4:<3} \033[1mFav:\033[0m {5:<5} Heat:{8:<3} Visits: {9}  {7}
-'''.format(w['name'], w['id'], w['occupants'], w['capacity'], instances, w['favorites'], w['authorName'], launchlink, w['heat'], w['visits']
+'''.format(w['name'], w['id'], w['occupants'], w['capacity'], instances, w['favorites'], w['authorName'], launchlink, w['heat'], visits
     ))
 
     # If -W is specified and -I or -i are specified, we need to get a list of instances.
@@ -383,7 +395,8 @@ def parse_user(u, detail=False):
             print("\t👁 \033[1;31m Private World \033[0m👁")
         else:
             print("\n")
-            worldidsearch(u['location'].split(':')[0])
+            print(u['location'].split(':')[1])
+            worldidsearch(u['location'].split(':')[0], location=u['location'].split(':')[1])
 
             if args.debug:
                 print(u['location'].split(':')[1])
@@ -425,8 +438,10 @@ def get_user_blocks():
         print("{0:<22} {1:<25} {2:<45} {3}".format(blockee["type"], blockee["targetDisplayName"], blockee["targetUserId"], blockee["created"]))
 
 def get_user_blocked():
-    print("Player moderations against you. (Blockers)")
     targeturi = apiurl + '/auth/user/playermoderated/?' + apikey
+
+    print("Player moderations against you. (Blockers)")
+    print(targeturi)
     if args.debug:
         print(targeturi)
     blockers = requests.get(targeturi, cookies=cookies, headers=headers)
@@ -536,57 +551,53 @@ def setup_user(authed=False):
         print("""   This will ask for your VRChat username and password to generate
         an auth token to save to a config file.  How much do you trust me?""")
 
-        vrcuser=input("VRChat User: ")
-        vrcpass=getpass("VRChat Pass: ")
-        vrcuser=bytes(vrcuser, encoding="UTF8")
-        vrcpass=bytes(vrcpass, encoding="UTF8")
-        vrchash=vrcuser + b':' + vrcpass
+        vrcuser = input("VRChat User: ")
+        vrcpass = getpass("VRChat Pass: ")
+        vrcuser = bytes(vrcuser, encoding="UTF8")
+        vrcpass = bytes(vrcpass, encoding="UTF8")
+        vrchash = vrcuser + b':' + vrcpass
         vrchash = base64.b64encode(vrchash)
         vrchash = vrchash.decode("UTF8")
     else:
         config.read(config_file)
-        vrchash=config.get('credentials', 'authkey')
+        vrchash = config.get('credentials', 'authkey' + args.profile)
 
-    print(authcookie)
-    # Debugging why it doesn't always work:
-    #if not args.relogin:
-    #    sys.exit()
     targeturi = apiurl + '/auth/user/?' + apikey
     headers.update({'Authorization': 'Basic ' + vrchash})
 
-    session=requests.Session()
+    session = requests.Session()
     resp = session.get(targeturi, headers=headers)
     cookie = resp.cookies.get("auth")
-    cookies = resp.cookies
+    # cookies = resp.cookies
     print(resp.cookies)
     if 'requiresTwoFactorAuth' in str(resp.content):
         print("requiresTwoFactorAuth")
-        tfacode=input("2FA Code:")
-        data={"code": tfacode}
+        tfacode = input("2FA Code: ")
+        data = {"code": tfacode}
         targeturi = apiurl + "/auth/twofactorauth/totp/verify/?" + apikey
         resp2 = session.post(targeturi, data=data, cookies=resp.cookies, headers=headers)
         print(resp2.content)
 
-
     print("""    -- Writing changes to config file. --
     You shouldn't need to do this again unless you change accounts.
     Config file is located at: {}""".format(config_file))
+    config.read(config_file)
     try:
-        config.set("credentials", "authkey", vrchash)
+        config.set("credentials", "authkey" + args.profile, vrchash)
     except configparser.NoSectionError:
         config.add_section('credentials')
-        config.set("credentials", "authkey", vrchash)
+        config.set("credentials", "authkey" + args.profile, vrchash)
 
     try:
-        config.set("credentials", "authcookie", cookie)
+        config.set("credentials", "authcookie" + args.profile, cookie)
     except configparser.NoSectionError:
         config.add_section('credentials')
-        config.set("credentials", "authcookie", cookie)
+        config.set("credentials", "authcookie" + args.profile, cookie)
 
     with open(config_file, 'w+') as configfile:
-      config.write(configfile)
+        config.write(configfile)
 
-# lets get to parsing them options, shall we?
+
 if args.world_search:
     worldsearch(args.world_search)
 elif args.worldid_search:
