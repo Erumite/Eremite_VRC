@@ -30,7 +30,7 @@ You can also apparently stream with OBS or VLC; anything that can send to an RTM
 OBS Settings Example:
 
 * Service: `Custom...`
-* Server: `rtmp://1.2.3.4/show/`
+* Server: `rtmp://1.2.3.4:1935/show/`
 * Stream Key: `stream/?key=EremiteSucks`
 
 ---
