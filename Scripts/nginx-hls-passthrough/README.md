@@ -27,6 +27,12 @@ ffmpeg -re -i "${video}" -vcodec libx264 -vprofile baseline -g 30 -acodec aac -s
 ```
 You can also apparently stream with OBS or VLC; anything that can send to an RTMP stream, really.
 
+OBS Settings Example:
+
+* Service: `Custom...`
+* Server: `rtmp://1.2.3.4/show/`
+* Stream Key: `stream/?key=EremiteSucks`
+
 ---
 
 ### Playing
