@@ -18,7 +18,7 @@ Mostly done projects that are in a working state.
 
 * **[Dynamic Book](Assets/Eremite/DynamicBook)**: Book with multiple unlockable pages animator demo.
 
-* **[Following Pet](Assets/Eremite/FunStuff/Following%20Pet)**: Optimized way to have a minion follow you around.
+* **[Following Pet](Assets/Eremite/AvatarPrefabs/Following%20Pet)**: Optimized way to have a minion follow you around.
 
 * **[3D Text Fix](Assets/Eremite/Optimizations/3D-Text-Fix)**: Fix rendering on 3d Text so it isn't visible through everything.
 
