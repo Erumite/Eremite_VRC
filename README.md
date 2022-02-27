@@ -12,7 +12,7 @@ However, the best way it to click the big green `Clone or Download` button near 
 
 #### Releases:
 Mostly done projects that are in a working state.
-* **[Flying Rig](Assets/Eremite/FunStuff/FlyingRig/)**: Avatar flight controlled by head angle.
+* **[Flying Rig](Assets/Eremite/AvatarPrefabs/FlyingRig/)**: Avatar flight controlled by head angle.
 
 * **[Custom Nametag Shader/Rig](Assets/Eremite/Shaders/CustomNametag/)**: Replace your nametag with something fancier. Read the notes well.
 
