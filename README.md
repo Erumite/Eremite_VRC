@@ -26,7 +26,7 @@ Mostly done projects that are in a working state.
 
 * **[NightVision Shader/Rig](Assets/Eremite/Shaders/NightVision)**: See in the dark. ([offshoot](Assets/Eremite/Shaders/AntiMigraine_Light_Limiter))
 
-* **[Flying Camera Drone](Assets/Eremite/FunStuff/FlyingDrone)** : Camera drone you can fly around with a controller.
+* **[Flying Camera Drone](Assets/Eremite/WorldObjects/FlyingDrone)** : Camera drone you can fly around with a controller.
 #### Ongoing Projects
 * **[Useful Meshes](Assets/Eremite/MeshTricks)** : Collection of meshes that Unity doesn't provide that I've found useful.
 
