@@ -16,7 +16,7 @@ Mostly done projects that are in a working state.
 
 * **[Custom Nametag Shader/Rig](Assets/Eremite/Shaders/CustomNametag/)**: Replace your nametag with something fancier. Read the notes well.
 
-* **[Dynamic Book](Assets/Eremite/DynamicBook)**: Book with multiple unlockable pages animator demo.
+* **[Dynamic Book](Assets/Eremite/WorldObjects/DynamicBook)**: Book with multiple unlockable pages animator demo.
 
 * **[Following Pet](Assets/Eremite/AvatarPrefabs/Following%20Pet)**: Optimized way to have a minion follow you around.
 
