@@ -1,6 +1,9 @@
 ![](https://forthebadge.com/images/badges/contains-technical-debt.svg) ![](https://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg) ![](https://forthebadge.com/images/badges/fuck-it-ship-it.svg)
 
 # Eremite's VRChat Stuff
+
+![](https://i.imgur.com/FO5AyXY.png) Was this mess useful? https://ko-fi.com/eremite
+
 This repo is here to contain a bunch of VRChat related notes, prefabs and demos.  It serves both as a way of storing notes for myself and for showing friends/fellow creators how I go about certain things.
 
 There are various `README.md` files sprinkled around the repo that have more information about the specific folder.  Please refer to them for more detail.
