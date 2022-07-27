@@ -14,6 +14,6 @@ I realized that the [NightVision](https://github.com/Erumite/Eremite_VRC/tree/ma
 I also included a super stripped-down verison that simply applies a hue modifier and a brightness cap without the extra calculations.  Should be a bit more performant if you're really trying to min/max your frames.
 
 ##### Setup:
-   Same as NightVision shader.  See [documentation](https://github.com/Erumite/Eremite_VRC/blob/master/Assets/Eremite/NightVision/README.md).
+   Same as NightVision shader.  See [documentation](https://github.com/Erumite/Eremite_VRC/blob/master/Assets/Eremite/Shaders/NightVision/README.md).
 
 Hopefully this will be helpful and make VRChat more accessible to people with photosensitivity problems.
