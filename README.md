@@ -8,6 +8,10 @@ This repo is here to contain a bunch of VRChat related notes, prefabs and demos.
 
 There are various `README.md` files sprinkled around the repo that have more information about the specific folder.  Please refer to them for more detail.
 
+**WARNING**: This is for **SDK2** and will be deprecated soon.  See the new repos:
+ * [Eremite_VRC_Udon](https://github.com/Erumite/Eremite_VRC_Udon)
+ * [Eremite_VRC_AV3](https://github.com/Erumite/Eremite_VRC_AV3)
+
 #### How do I download this?
 I've started trying to include a `.unitypackage` for most things I've considered finished.  
 
